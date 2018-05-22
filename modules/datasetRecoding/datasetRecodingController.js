@@ -13,16 +13,21 @@ dhisServerUtilsConfig.controller('datasetRecodingController', function($rootScop
     $scope.formUpdate = {};
     $scope.logs = {};
 
+    // Libraries
+    $scope.moment = moment;
+
     /**
      * Datavalues are ready to be move when:
      *  - data is loaded
      *  - Every input has been selected
      *  - There is no blank category
+     *  - Source and target params are not equal
      */
     $scope.readyToMove = function() {
-        return $scope.dataLoaded && 
-               $scope.formUpdate.isInputSelected() && 
-               $scope.currentForm;
+        return $scope.dataLoaded &&
+               $scope.formUpdate.isInputSelected() &&
+               $scope.currentForm &&
+               !$scope.areSourceTargetParamsEqual();
     };
 
     /**
@@ -52,6 +57,12 @@ dhisServerUtilsConfig.controller('datasetRecodingController', function($rootScop
             _.isEqual($scope.formRead.getDataElement(), $scope.currentFormParams)
         );
     };
+
+    $scope.showConfirmationDialog = function(key) {
+        jQuery("#confirmation-dialog-" + key + " .modal").modal('show');
+        var targetParams = $scope.formUpdate.getDataElement();
+        $scope.entry = buildLoggingEntry($scope.currentFormParams, targetParams);
+    }
 
     /**
      * Load formdata 
@@ -83,11 +94,6 @@ dhisServerUtilsConfig.controller('datasetRecodingController', function($rootScop
      * Move form data into new selection (organisationUnit, period, attributes combination)
      */
     $scope.moveFormData = function() {
-        if ($scope.areSourceTargetParamsEqual()) {
-            alert(translate("SAME_DATA"));
-            return;
-        }
-        
         var targetParams = $scope.formUpdate.getDataElement();
         LoadFormValues(targetParams).success(function(data) {
             if (_.isEmpty(data.dataValues) || confirm(translate("EXISTING_DATA"))) {

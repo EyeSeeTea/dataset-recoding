@@ -1,0 +1,27 @@
+<div id="confirmation-dialog-{{key}}">
+  <div class="modal fade confirmation-dialog" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{title}}</h4>
+        </div>
+        
+        <div class="modal-body">
+          <div class="span5">
+            <ng-transclude></ng-transclude>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            {{ 'CANCEL' | translate }}
+          </button>
+
+          <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="onConfirm()">
+            {{ 'OK' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -32,56 +32,55 @@
         <!-- button row -->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <confirmation-window
-                    key="update"
-                    ng-if="entry"
-                    title="{{ 'UPDATE' | translate }}"
-                    on-confirm="moveFormData()"
-                >
-                    <div class="confirmation-title"><b>{{ 'UPDATE_CONFIRMATION' | translate }}</b></div>
+                <confirmation-window key="update" title="{{ 'UPDATE' | translate }}" on-confirm="moveFormData()">
+                    <div ng-if="entry">
+                        <div class="confirmation-title">
+                            <b>{{ 'UPDATE_CONFIRMATION' | translate }}</b>
+                        </div>
 
-                    <div>
-                        <label>{{ 'DATASET' | translate }}:</label>
-                        <span class="value">
-                            {{ entry.source.dataset.displayName }}
-                            ({{ entry.source.dataset.id }})
-                        </span>
-                    </div>
-
-                    <div>
-                        <label>{{ 'ORGANISATION_UNIT' | translate }}:</label>
-                        <span class="value">
-                            {{ entry.source.organisationUnit.displayName }}
-                            ({{ entry.source.organisationUnit.id }})
-                            <span ng-if="entry.source.organisationUnit.id !== entry.target.organisationUnit.id">
-                                <i class="fa fa-arrow-right"></i>
-                                {{ entry.target.organisationUnit.displayName }}
-                                ({{ entry.target.organisationUnit.id }})
-                            </span>
-                        </span>
-                    </div>
-
-                    <div>
-                        <label>{{ 'PERIOD' | translate }}:</label>
-                        <span class="value">
-                            {{ moment(entry.source.period.code, "YYYYMM").format("YYYY/MM") }}
-                            <span ng-if="entry.source.period.code !== entry.target.period.code">
-                                <i class="fa fa-arrow-right"></i>
-                                {{ moment(entry.target.period.code, "YYYYMM").format("YYYY/MM") }}
-                            </span>
-                        </span>
-                    </div>
-
-                    <div ng-repeat="attr in entry.source.attributes">
                         <div>
-                            <label>{{ attr.category.name }}:</label>
+                            <label>{{ 'DATASET' | translate }}:</label>
                             <span class="value">
-                                {{ attr.attribute.name }}
-                                <span ng-if="attr.attribute.id !== entry.target.attributes[$index].attribute.id">
+                                {{ entry.source.dataset.displayName }}
+                                ({{ entry.source.dataset.id }})
+                            </span>
+                        </div>
+
+                        <div>
+                            <label>{{ 'ORGANISATION_UNIT' | translate }}:</label>
+                            <span class="value">
+                                {{ entry.source.organisationUnit.displayName }}
+                                ({{ entry.source.organisationUnit.id }})
+                                <span ng-if="entry.source.organisationUnit.id !== entry.target.organisationUnit.id">
                                     <i class="fa fa-arrow-right"></i>
-                                    {{ entry.target.attributes[$index].attribute.name }}
+                                    {{ entry.target.organisationUnit.displayName }}
+                                    ({{ entry.target.organisationUnit.id }})
                                 </span>
                             </span>
+                        </div>
+
+                        <div>
+                            <label>{{ 'PERIOD' | translate }}:</label>
+                            <span class="value">
+                                {{ moment(entry.source.period.code, "YYYYMM").format("YYYY/MM") }}
+                                <span ng-if="entry.source.period.code !== entry.target.period.code">
+                                    <i class="fa fa-arrow-right"></i>
+                                    {{ moment(entry.target.period.code, "YYYYMM").format("YYYY/MM") }}
+                                </span>
+                            </span>
+                        </div>
+
+                        <div ng-repeat="attr in entry.source.attributes">
+                            <div>
+                                <label>{{ attr.category.name }}:</label>
+                                <span class="value">
+                                    {{ attr.attribute.name }}
+                                    <span ng-if="attr.attribute.id !== entry.target.attributes[$index].attribute.id">
+                                        <i class="fa fa-arrow-right"></i>
+                                        {{ entry.target.attributes[$index].attribute.name }}
+                                    </span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </confirmation-window>
